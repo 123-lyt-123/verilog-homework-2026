@@ -1,100 +1,191 @@
-# Verilog 作业提交说明（学生版）
+# 数字集成电路EDA技术 — 课程作业提交说明
 
-课程仓库：<https://github.com/rosickey/verilog-homework-2026>
+课程仓库：[rosickey/verilog-homework-2026](https://github.com/rosickey/verilog-homework-2026)
 
-本课程使用 GitHub Pull Request（PR）提交作业。每位同学固定使用自己的：
+本仓库用于《数字集成电路EDA技术》课程的作业提交、修改和教师批改。学生先 Fork 课程仓库，在自己的学号分支完成作业，再通过 Pull Request（简称 PR，合并请求）提交给教师。
 
-- GitHub 账号；
-- 9 位学号分支；
-- `students/学号/` 目录。
+**第一次提交只注册身份；注册通过后，再提交课程作业。** 本说明不包含具体实验题目，`HW01`、`HW02` 及文件名均为提交流程示例，不代表已发布的作业。具体任务、软件版本、提交格式和截止时间以教师发布的要求为准。
 
-例如，11 专业 1 号学生的学号为 `240201101`，则对应关系必须是：
 
-```text
-分支：240201101
-目录：students/240201101/
+## 一、必须遵守的规则
+
+每位同学使用自己的 GitHub 账号、9 位完整学号、学号分支和个人目录。例如，11 专业 1 号学生的学号为 `240201101`：
+
+| 项目 | 示例 |
+| --- | --- |
+| GitHub 用户名 | `wangming123` |
+| 学号 | `240201101` |
+| 分支名称 | `240201101` |
+| 个人目录 | `students/240201101/` |
+| 身份文件 | `students/240201101/.student.yml` |
+
+- 学生提交分支必须与本人完整学号一致，不使用 `HW01`、姓名或 `240201101-HW01` 等名称。
+- 整个课程期间复用同一个学号分支，不同作业分别放在 `HW01/`、`HW02/` 等子目录中。
+- 只能修改 `students/本人学号/`，不能修改其他学生目录，以及课程根目录的 `README.md`、`assignments/`、`.github/` 等公共文件。
+- 注册通过后，不得自行修改、删除或重命名 `.student.yml`。
+- 作业 PR 统一提交到教师仓库的 `main`；不要直接向教师仓库的 `main` 推送。
+
+这是课程提交规范；自动限制需要教师启用配套检查和分支保护后才生效。检查通过也不代表作业内容正确，仍需教师审核。
+
+> 下文的 `240201101`、`王明`、`wangming123` 都是示例。执行命令前，请替换为自己的信息。即使已在其他课程注册，本课程也需要在本仓库单独完成注册；可以继续使用同一个本人 GitHub 账号。
+
+## 二、Windows 准备工作
+
+### 1. 注册 GitHub 账号
+
+打开 [GitHub](https://github.com)，注册个人账号并完成邮箱验证。
+
+例如个人主页为 `https://github.com/wangming123`，用户名就是 `wangming123`。用户名不是中文昵称，也不是邮箱地址。
+
+不要把账号密码、验证码或访问令牌写入注册文件、作业文件或 PR。
+
+### 2. 安装 Git for Windows
+
+打开 [Git for Windows 官方下载页](https://git-scm.com/install/windows)，根据电脑类型选择安装程序：普通 Intel/AMD 64 位电脑选择 **x64 Setup**，Windows ARM 电脑选择 **ARM64 Setup**。
+
+安装时通常可保留默认设置，并注意：
+
+- 保留 Git Bash 和资源管理器右键菜单相关组件；
+- 保留 Git Credential Manager，用于之后的 GitHub 登录；
+- 编辑器选择已安装且熟悉的编辑器，不熟悉 Vim 时可以选择可用的记事本或其他编辑器；
+- 安装后关闭旧终端，从开始菜单重新打开 **Git Bash**。
+
+输入下面的命令并按 Enter：
+
+```bash
+git --version
 ```
 
-> 重要：学生只能修改自己的学号目录。不要修改 `README.md`、`.github/`、`assignments/` 或其他同学的目录。
+出现 `git version ...` 即说明 Git 可用，无需与截图或其他同学的版本号完全相同。
 
-## 一、第一次提交：注册学号与 GitHub 用户名
+Git 用于管理与提交文件，不是 EDA 综合、仿真或烧录软件。课程所需 EDA 软件请按教师要求另行准备。
 
-第一次 PR **只注册身份，不提交作业代码**。教师审核并合并后，学号与 GitHub 用户名即完成绑定。
+### 3. 打开 Git Bash，认识命令行
 
-### 1. Fork 课程仓库
+本文的命令统一在 **Git Bash** 中执行，不要混用 CMD 或 PowerShell 的目录语法。
 
-登录自己的 GitHub 账号，打开课程仓库，点击右上角的 **Fork**，将仓库复制到自己的账号下。
+可以从开始菜单打开 Git Bash，也可以在课程文件夹的空白处右键选择 **Open Git Bash here / Git Bash Here**。Windows 11 中，该选项有时位于“显示更多选项”内。
 
-例如 GitHub 用户名为 `wangming123`，Fork 后的仓库是：
+使用命令行时请注意：
 
-```text
-https://github.com/wangming123/verilog-homework-2026
+- 每输入一行命令，按 Enter 执行，确认没有报错后再执行下一行；
+- 只复制代码框内的命令，不要复制提示符 `$`、代码框边框或解释文字；
+- 粘贴可用终端右键菜单或 `Shift+Insert`；
+- 按 ↑ 可找回上一条命令，按 Tab 可补全文件夹名称；
+- `git diff` 等命令若进入分页显示，可按 `q` 退出。
+
+| 命令 | 作用 |
+| --- | --- |
+| `pwd` | 显示当前目录 |
+| `ls` | 列出当前目录内容 |
+| `ls -la` | 列出包括点号文件在内的全部内容 |
+| `cd 文件夹名` | 进入文件夹 |
+| `cd ..` | 返回上一级 |
+| `mkdir -p 文件夹路径` | 创建目录及所需的上级目录 |
+| `clear` | 清理终端显示，不删除文件 |
+
+Windows 和 Git Bash 路径的对应关系如下：
+
+| Windows 路径 | Git Bash 路径 |
+| --- | --- |
+| `D:\course` | `/d/course` |
+| `C:\course` | `/c/course` |
+| `D:\EDA Course` | `/d/EDA Course` |
+
+路径包含空格时加英文双引号，例如：
+
+```bash
+cd "/d/EDA Course"
 ```
+
+### 4. 设置 Git 提交者信息
+
+在自己的电脑上配置一次即可：
+
+```bash
+git config --global user.name "王明"
+git config --global user.email "你的GitHub提交邮箱"
+```
+
+将姓名和邮箱替换为本人信息。邮箱可使用添加到 GitHub 的邮箱，或 GitHub 邮箱设置页提供的个人 `noreply` 地址。
+
+检查设置：
+
+```bash
+git config --global user.name
+git config --global user.email
+```
+
+`user.name` 是提交记录中的署名，不是 GitHub 登录操作。填写别人名字不能改变实际登录账号，也不能代替 `.student.yml` 的身份注册。
+
+使用机房共用电脑时，建议在 Clone 后进入仓库，将上述 `--global` 改成 `--local`，只设置当前仓库；使用完毕注意退出账号，不留下个人凭据。
+
+## 三、第一次提交：注册学号与 GitHub 用户名
+
+首次注册 PR **只能新增本人 `.student.yml`，不要同时提交作业**。
+
+### 1. Fork 教师仓库
+
+打开 [课程仓库](https://github.com/rosickey/verilog-homework-2026)，点击 **Fork**，Owner 选择自己的个人账号，仓库名保留 `verilog-homework-2026`，完成创建。
+
+例如用户名为 `wangming123`，自己的 Fork 就是 `wangming123/verilog-homework-2026`。Fork 在 GitHub 上创建副本，后面的 Clone 则把副本下载到电脑。[GitHub Fork 操作说明文字](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)
+[GitHub Fork 操作说明视频](https://www.bilibili.com/video/BV1bd4y1J7Vt)
 
 ### 2. Clone 自己的 Fork
 
-把下面命令中的 `你的GitHub用户名` 替换为自己的用户名：
+先在资源管理器中建立课程文件夹，例如 `D:\course`；没有 D 盘时可选择其他位置。在该文件夹中打开 Git Bash。
+
+把下方 `你的GitHub用户名` 替换为自己的用户名，然后执行：
 
 ```bash
 git clone https://github.com/你的GitHub用户名/verilog-homework-2026.git
 cd verilog-homework-2026
+git status
 ```
 
-第一次使用 Git 时，可先设置提交者姓名和邮箱：
-
-```bash
-git config --global user.name "你的姓名"
-git config --global user.email "你的GitHub邮箱"
-```
+请 Clone 自己的 Fork，不是教师的仓库，也不是其他课程的仓库。Clone 只需做一次，以后继续使用这个本地文件夹。
 
 ### 3. 添加教师仓库为 upstream
+
+在刚 Clone 的仓库目录中执行一次：
 
 ```bash
 git remote add upstream https://github.com/rosickey/verilog-homework-2026.git
 git remote -v
 ```
 
-其中：
+检查对应关系：
 
-- `origin` 是你自己的 Fork；
-- `upstream` 是教师的课程仓库。
+| 远程名称 | 应指向的仓库 | 用途 |
+| --- | --- | --- |
+| `origin` | `你的GitHub用户名/verilog-homework-2026` | 上传本人分支 |
+| `upstream` | `rosickey/verilog-homework-2026` | 获取课程最新内容 |
 
-### 4. 创建学号分支
+后续命令都在本地 `verilog-homework-2026` 仓库内执行。如果不确定位置，先运行 `pwd` 和 `git status`。
 
-先取得教师仓库的最新内容，再创建以完整学号命名的分支：
+### 4. 创建本人学号分支
+
+从教师主分支的最新内容创建学号分支：
 
 ```bash
 git fetch upstream
-git switch main
-git pull --ff-only upstream main
-git switch -c 240201101
-```
-
-请把示例学号 `240201101` 替换为你自己的 9 位学号。
-
-检查当前分支：
-
-```bash
+git switch -c 240201101 upstream/main
 git branch --show-current
 ```
 
-输出必须是你自己的完整学号。不要使用 `HW01`、`姓名-HW01` 或 `学号-HW01` 作为分支名。
+最后一条命令应显示 `240201101`。请换成本人学号；分支只创建一次，之后使用 `git switch 学号` 切换即可。
 
-### 5. 创建身份文件
+### 5. 创建学生身份文件
 
-创建自己的目录：
+以下仍以 `240201101` 为例：
 
 ```bash
 mkdir -p students/240201101
+touch students/240201101/.student.yml
+notepad.exe students/240201101/.student.yml
 ```
 
-在该目录中新建文件：
-
-```text
-students/240201101/.student.yml
-```
-
-文件内容如下：
+在记事本中输入以下三行，全部替换为本人真实信息，并以 UTF-8 保存：
 
 ```yaml
 student_id: "240201101"
@@ -102,190 +193,240 @@ name: "王明"
 github_username: "wangming123"
 ```
 
-请替换为自己的真实信息：
+- `student_id` 与分支名、目录名必须是同一个 9 位学号；
+- `github_username` 必须是本人提交 PR 的 GitHub 用户名；
+- 使用英文冒号、英文双引号，保留学号两侧的双引号，不要增加其他字段。
 
-- `student_id`：9 位完整学号，必须与分支名、目录名一致；
-- `name`：真实姓名；
-- `github_username`：GitHub 用户名，不是昵称，也不是邮箱。
+保存后检查：
 
-例如 GitHub 主页地址是 `https://github.com/wangming123`，用户名就是 `wangming123`。
+```bash
+ls -la students/240201101
+```
 
-### 6. 检查、提交并 Push
+文件名必须是 `.student.yml`，不是 `.student.yml.txt`。可在 Windows 资源管理器中启用“显示文件扩展名”检查；在 Git Bash 中，以点号开头的文件需要用 `ls -la` 查看。
 
-第一次 PR 只能包含自己的 `.student.yml`：
+### 6. 检查、Commit、Push
+
+先把身份文件加入暂存区，检查本次准备提交的文件：
 
 ```bash
 git status
 git add students/240201101/.student.yml
+git diff --cached --name-only
+git diff --cached
+```
+
+确认只包含本人身份文件，内容无误后，再执行：
+
+```bash
 git commit -m "register 240201101 王明"
 git push -u origin 240201101
 ```
 
-请将命令中的学号和姓名替换为自己的信息。
+`commit` 是保存本地提交记录，`push` 是上传到自己的 Fork，之后还要创建 PR 才算交给教师。
 
-### 7. 创建第一次 Pull Request
+第一次需要身份验证的 HTTPS 操作（通常是 Push）可能弹出 Git Credential Manager 或浏览器。按提示登录本人 GitHub 账号并完成授权；公开仓库 Clone 时没有登录提示也属正常。Git for Windows 包含 GCM，可管理该登录过程，无需把令牌写进命令或文件。[GitHub HTTPS 登录说明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)
 
-打开自己 Fork 后的仓库，点击 **Compare & pull request**，确认：
+### 7. 创建注册 PR
 
-```text
-base repository: rosickey/verilog-homework-2026
-base branch:     main
-head repository: 你的GitHub用户名/verilog-homework-2026
-compare branch:   你的学号
-```
+在 GitHub 打开自己的 Fork，点击 **Compare & pull request**；没有提示时可通过 **Contribute → Open pull request** 或 **Pull requests → New pull request** 进入比较页面，必要时选择 **compare across forks**。
 
-PR 标题统一写为：
+务必核对：
+
+| 页面字段 | 应选择的内容 |
+| --- | --- |
+| base repository | `rosickey/verilog-homework-2026` |
+| base | `main` |
+| head repository / head fork | `你的GitHub用户名/verilog-homework-2026` |
+| compare | `你的9位学号` |
+
+注册 PR 标题：
 
 ```text
 [REGISTER] 240201101 王明
 ```
 
-教师将核对：
+在 **Files changed** 中确认只新增本人 `.student.yml`，再提交 PR，等待教师核对姓名、学号、PR 作者和 Fork 所有者。
 
-1. PR 提交者是否为本人 GitHub 账号；
-2. 分支、目录和 `student_id` 是否为同一个学号；
-3. `github_username` 是否与 PR 提交者一致；
-4. PR 是否只新增自己的 `.student.yml`。
+教师合并注册 PR 后，才视为本课程身份绑定完成。集中注册阶段可能还没有自动检查，不能以“没有检查”为由判断注册成功。
 
-审核通过并合并后，绑定关系固定为：
+如需更改姓名、学号或 GitHub 账号，请联系教师，不要自行修改已合并的身份文件。
 
-```text
-GitHub 用户名 ↔ 学号 ↔ 学号分支 ↔ 学号目录
-```
+## 四、正常提交课程作业
 
-注册完成后，学生不得自行修改或删除 `.student.yml`。如姓名、学号或 GitHub 用户名确需变更，请联系教师。
+### 1. 先查看本次作业要求
 
-## 二、以后提交作业
+按教师发布的题目完成作业。若仓库已发布作业资料，可查看 `assignments/`；本 README 不预设 HW01 的具体内容。
 
-整个课程期间继续使用同一个学号分支，不要为每次作业另建分支，也不要删除该分支。
+EDA 作业所需材料可能包括 HDL 源代码、测试文件、工程配置、约束文件、仿真结果或报告。**具体提交哪些文件，以对应作业要求为准，不统一限定为 PDF，也不要求每次交齐所有类型。**
 
-### 1. 同步教师仓库
+如布置了源代码或测试文件，应提交实际文件，不要只交代码截图。不要提交与作业无关的安装包、软件缓存或自动生成的中间文件；教师要求的输出文件除外。
 
-开始新作业前执行：
+### 2. 同步课程仓库
+
+在本地 `verilog-homework-2026` 文件夹中打开 Git Bash。先执行：
 
 ```bash
-cd verilog-homework-2026
-git fetch upstream
-git switch 240201101
-git merge upstream/main
+git status
 ```
 
-将 `240201101` 替换为自己的学号。
+如有未处理的本地改动，先确认并妥善保存；不要直接覆盖文件。确认可以同步后执行：
 
-如果 Git 提示存在冲突，不要随意删除文件，请保留终端提示并联系教师。
+```bash
+git fetch upstream
+git switch 240201101
+git merge --no-edit upstream/main
+```
 
-### 2. 创建作业目录
+已经在仓库内时，不需要再次执行 `cd verilog-homework-2026`。如果发生合并冲突或其他错误，停止操作并保留提示，请教师协助；不要用强制推送或硬重置解决。
 
-例如提交 HW01：
+### 3. 创建作业目录，放入需要提交的文件
+
+例如教师发布了 HW01，创建：
 
 ```bash
 mkdir -p students/240201101/HW01
 ```
 
-把作业文件放在自己的作业目录中，例如：
+将要求的文件放入该目录。以下只是结构示例，文件名应按实际任务调整：
 
-```text
-students/240201101/
-├── .student.yml
-└── HW01/
-    ├── top.v
-    └── top_tb.v
-```
+| 示例路径 | 说明 |
+| --- | --- |
+| `students/240201101/.student.yml` | 已注册身份文件，保持不变 |
+| `students/240201101/HW01/top.v` | 如任务要求 Verilog 源代码，可放在此处 |
+| `students/240201101/HW01/top_tb.v` | 如任务要求 testbench，可放在此处 |
+| `students/240201101/HW01/report.pdf` | 仅在任务要求报告时提交 |
+| `students/240201101/HW02/` | 后续第二次作业目录，不是新分支 |
 
-具体文件名以每次作业要求为准。
+不要把别人的文件或课程公共文件复制进本次提交中。提交前保存编辑器、仿真软件或工程中的最新修改，并按作业要求完成本地检查。
 
-### 3. 提交作业
+### 4. 检查并提交
+
+把本次作业文件加入暂存区：
 
 ```bash
 git status
 git diff
-git add students/240201101/HW01
+git add students/240201101/HW01/
+git diff --cached --name-only
+git diff --cached
+```
+
+确认暂存文件清单只包含本次应交的文件，没有他人目录、身份文件或课程公共文件。PDF、截图等二进制文件的内容需要自行打开检查，不能只依赖 `git diff`。
+
+确认无误后：
+
+```bash
 git commit -m "240201101 HW01"
 git push origin 240201101
 ```
 
-提交前必须确认所有改动都位于：
+后续作业将目录和提交信息中的 `HW01` 换成相应编号，分支仍为本人学号。
 
-```text
-students/自己的学号/
-```
+### 5. 创建作业 PR
 
-### 4. 创建作业 PR
+PR 方向仍为本人 Fork 的学号分支，到 `rosickey/verilog-homework-2026` 的 `main`。
 
-PR 仍然从自己的学号分支提交到教师仓库的 `main`：
-
-```text
-自己的学号 → main
-```
-
-标题格式：
+标题格式为 `[学号] 作业编号 - 姓名`，例如：
 
 ```text
 [240201101] HW01 - 王明
 ```
 
-提交后等待自动检查和教师审核。自动检查主要验证：
+PR 描述中可简要说明完成内容，以及作业要求的运行、仿真或查看方法；不要填写无关个人信息。
 
-- PR 作者及 Fork 所有者是否与绑定的 GitHub 用户名一致；
-- 分支名是否为本人学号；
-- 是否只修改 `students/本人学号/`；
-- 是否修改或删除了 `.student.yml`；
-- 重命名前后的路径是否都属于本人目录。
+教师启用自动检查后，查看 PR 的 **Checks** 结果。通过后等待教师审核，不要自行把检查通过等同于作业合格。
 
-## 三、教师要求修改时
+**同一学号分支向同一目标分支的未合并 PR，会包含之后继续 Push 的提交。** 上一份注册或作业 PR 尚未合并时，不要将下一次作业混入其中。PR 合并后继续保留学号分支，不要点击删除分支。
 
-如果教师在 PR 中提出修改意见，不要新建 PR。在本地修改后继续提交到同一学号分支：
+## 五、教师要求修改时
+
+如果作业 PR 尚未合并，直接修改本地作业，再推送到同一分支，不必重复创建 PR：
 
 ```bash
-git add students/240201101/HW01
+git status
+git add students/240201101/HW01/
+git diff --cached --name-only
+git diff --cached
+```
+
+检查无误后执行：
+
+```bash
 git commit -m "240201101 HW01 fix"
 git push origin 240201101
 ```
 
-原 PR 会自动更新，自动检查也会重新运行。
+原 PR 会自动更新；已启用的检查也会重新运行。若原 PR 已合并，先同步教师仓库，再按教师要求提交修订并创建新的 PR。
 
-## 四、常见检查错误
+需要提交报告或导出图纸的作业，修改源文件后记得重新生成对应输出文件。
 
-| 检查提示 | 原因 | 处理方法 |
-| --- | --- | --- |
-| `Unknown student ID` | 学号尚未绑定，或分支名错误 | 检查分支名；如尚未注册，联系教师 |
-| `GitHub username does not match` | PR 用户与已绑定账号不同 | 使用本人已绑定的 GitHub 账号 |
-| `Head repository owner does not match` | PR 来源 Fork 不属于已绑定账号 | 从本人 Fork 的学号分支提交 |
-| `Unauthorized path` | 修改了本人目录以外的文件 | 撤销越界修改后再次 Push |
-| `Registration file is locked` | 修改或删除了 `.student.yml` | 恢复该文件；需变更身份时联系教师 |
+## 六、常见问题
 
-不要重复创建 PR。修正本地文件后 `commit`、`push`，原 PR 会自动更新。
+| 提示或现象 | 检查与处理 |
+| --- | --- |
+| `git: command not found` | 确认 Git for Windows 已安装，重新打开 Git Bash |
+| `No such file or directory` | 用 `pwd`、`ls` 检查当前位置；含空格的路径加英文双引号 |
+| `not a git repository` | 当前不在仓库内；进入本地 `verilog-homework-2026` 后重试 |
+| `remote upstream already exists` | 已添加过该远程；用 `git remote -v` 核对，不要重复添加 |
+| `a branch named ... already exists` | 分支已创建；使用 `git switch 本人学号` 切换 |
+| `.student.yml` 实际为 `.student.yml.txt` | 显示文件扩展名后修正文件名，并检查 UTF-8 编码 |
+| `nothing to commit` | 检查是否保存了文件、是否已 `git add`；也可能改动已经提交 |
+| Push 被拒绝或无权限 | 确认登录的是本人账号，`origin` 指向本人 Fork；不要使用 `--force` |
+| `Unknown student ID` | 学号分支不正确，或教师尚未把本人的注册加入检查名单 |
+| `GitHub username does not match` | PR 作者不是该学号已绑定的账号 |
+| `Head repository owner does not match` | PR 来源不是本人 Fork |
+| `Unauthorized ... path` | 修改或重命名涉及本人目录以外的路径 |
+| `Registration file is locked` | 修改、删除或重命名了已注册的 `.student.yml` |
 
-## 五、每次提交前检查
+自动检查失败时先查看错误原因，再修改原 PR；不要重复创建相同 PR。身份变更、合并冲突或不确定如何恢复的改动，请联系教师，不要随意删除文件。
 
-- [ ] 登录的是自己的 GitHub 账号；
-- [ ] 当前分支是自己的 9 位学号；
-- [ ] 只修改了 `students/自己的学号/`；
-- [ ] 没有修改 `.student.yml`；
-- [ ] 没有修改其他学生或课程公共文件；
-- [ ] 已执行 `git status` 和 `git diff`；
-- [ ] PR 目标仓库为 `rosickey/verilog-homework-2026`；
-- [ ] PR 目标分支为 `main`；
-- [ ] 自动检查已经通过。
+## 七、提交前检查清单
 
-## 六、最常用命令
+- [ ] 当前使用的是本人 GitHub 账号和本课程仓库。
+- [ ] 当前分支是本人 9 位完整学号。
+- [ ] 首次注册只新增本人 `.student.yml`；注册通过后不再修改它。
+- [ ] 正常作业仅修改 `students/本人学号/本次作业编号/` 下应提交的文件。
+- [ ] 文件格式和内容符合本次作业要求，已完成要求的本地检查。
+- [ ] 暂存区没有他人文件、公共文件、无关缓存或凭据。
+- [ ] 已检查 `git status` 和 `git diff --cached --name-only`。
+- [ ] PR 目标是 `rosickey/verilog-homework-2026` 的 `main`。
+- [ ] PR 标题包含本人学号、作业编号和姓名。
+- [ ] 教师启用自动检查后，相关检查已经通过，并等待人工审核。
+
+## 八、日常命令速查
+
+以下在本地仓库内执行，示例学号和作业编号需替换为本人实际信息。
+
+查看状态与分支：
 
 ```bash
-# 查看当前分支
-git branch --show-current
-
-# 查看修改状态
 git status
+git branch --show-current
+git remote -v
+```
 
-# 同步教师仓库
+开始新作业前，在确认本地改动已妥善处理后同步：
+
+```bash
 git fetch upstream
 git switch 240201101
-git merge upstream/main
+git merge --no-edit upstream/main
+```
 
-# 提交并上传
-git add students/240201101/HW01
+准备提交并查看文件清单：
+
+```bash
+git add students/240201101/HW01/
+git diff --cached --name-only
+git diff --cached
+```
+
+确认无误后提交并上传：
+
+```bash
 git commit -m "240201101 HW01"
 git push origin 240201101
 ```
 
-请把所有示例中的 `240201101` 替换为自己的真实学号。
+最后到 GitHub 创建或查看对应 PR。只在本地保存文件、只 Commit 或只 Push，都不能代替向教师仓库提交 PR。
