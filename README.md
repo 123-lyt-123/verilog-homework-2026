@@ -41,7 +41,7 @@
 
 ### 2. 安装 Git for Windows
 
-打开 [Git for Windows 官方下载页](https://git-scm.com/install/windows)，根据电脑类型选择安装程序：普通 Intel/AMD 64 位电脑选择 **x64 Setup**，Windows ARM 电脑选择 **ARM64 Setup**。
+打开 [Git for Windows 官方下载页](https://git-scm.com/install/windows)，根据电脑类型选择安装程序：普通 Intel/AMD 64 位电脑选择 **x64 Setup**，Windows ARM 电脑选择 **ARM64 Setup**。[Git for Windows 视频教程](https://www.bilibili.com/video/BV1LUKk6wEWr)
 
 安装时通常可保留默认设置，并注意：
 
