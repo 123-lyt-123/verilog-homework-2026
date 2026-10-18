@@ -12,26 +12,19 @@
 
 | PR | 学号 | 姓名 | 原因 |
 | --- | --- | --- | --- |
-| 10 | 240210110 | 胡紫燕 | 注册 PR 只能新增 students/240210110/.student.yml |
 | 11 | 240210237 | 沈强 | students/240210237/.student.yml：必须包含 student_id、name、github_username |
-| 12 | 240210104 | 余心怡 | 来源分支必须为 9 位学号 |
 | 13 | 240210105 | 彭慧瑛 | students/240210105/.student.yml：必须包含 student_id、name、github_username |
-| 15 | 240210132 | 熊金涛 | students/240210132/.student.yml:3：不支持字段 github_id |
 | 16 | 240210107 | 陈芷颖 | 注册 PR 只能新增 students/240210107/.student.yml |
 | 17 | 240210240 | 游鹏 | 来源分支必须为 9 位学号 |
 | 19 | 240210205 | 邓巧 | 注册 PR 只能新增 students/240210205/.student.yml |
 | 22 | 240210121 | 彭子亮 | 注册 PR 只能新增 students/240210121/.student.yml |
-| 23 | 240210245 | 占立威 | students/240210245/.student.yml：必须包含 student_id、name、github_username |
 | 24 | 240210123 | 刘廷滔 | 注册 PR 只能新增 students/240210123/.student.yml |
 | 25 | 240210103 | 袁露南 | 注册 PR 只能新增 students/240210103/.student.yml |
-| 26 | 240210120 | 张健华 | students/240210120/.student.yml:3：不支持字段 full_name |
-| 27 | 240210126 | 陈浩 | students/240210126/.student.yml：必须包含 student_id、name、github_username |
 | 31 | 240210140 | 吴族文 | students/240210140/.student.yml：必须包含 student_id、name、github_username |
 | 34 | 240210138 | 熊国祺 | 来源分支必须为 9 位学号 |
 | 36 | 240210210 | 黄顺仟 | students/240210210/.student.yml：必须包含 student_id、name、github_username |
 | 37 | 240210124 | 陆冠印 | 注册 PR 只能新增 students/240210124/.student.yml |
 | 39 | 240210204 | 朱丽娜 | 注册 PR 只能新增 students/240210204/.student.yml |
-| 46 | 240210212 | 卢加菲 | students/240210212/.student.yml:3：请使用英文双引号包围字段值 |
 | 50 | 240210141 | 张焜 | students/240210141/.student.yml：必须包含 student_id、name、github_username |
 | 51 | 240210119 | 黄屿可 | students/240210119/.student.yml：必须包含 student_id、name、github_username |
 | 52 | 240210135 | 万宇政 | students/240210135/.student.yml：必须包含 student_id、name、github_username |
